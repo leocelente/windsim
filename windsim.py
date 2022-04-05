@@ -38,18 +38,18 @@ def main(args):
 
     print("Creating polynomial approximation of data:")
     altitudes = wind.altbins
-    wind_meridional = wind.Vwind
-    coeffs = np.polyfit(x=altitudes, y=wind_meridional, deg=8)
+    wind_zonal = wind.Uwind
+    coeffs = np.polyfit(x=altitudes, y=wind_zonal, deg=10)
     print(f"Coefficients: {coeffs}")
     f = np.poly1d(coeffs)
     x = np.array(altitudes)
     y = f(altitudes)
 
     plt.figure()
-    plt.plot(x, y, wind.altbins, wind.Vwind)
+    plt.plot(x, y, wind.altbins, wind.Uwind)
     plt.title("Polynomial Approx.")
     plt.xlabel("Altitudes")
-    plt.ylabel("Windspeed")
+    plt.ylabel("Zonal Windspeed")
     plt.legend(["Poly. Approx.", "HWM14 Model"])
     plt.grid()
 
