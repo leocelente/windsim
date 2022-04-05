@@ -12,16 +12,17 @@ def main(args):
     # lat, lon = 37.428229, -122.168858 # stanford
 
     lat, lon = args.coordinate
-    day = args.time.timetuple().tm_yday
-    ut = args.time.hour*60
-    year = args.time.year
+    time = args.time
+    if type(args.time) is list:
+        time = args.time[0]
 
     day = time.timetuple().tm_yday
     ut = time.hour * 60
     year = time.year
 
-    wind = HWM14(altlim=args.altitudes, altstp=1e-2, glat=lat, glon=lon, day=day, option=1, ut=ut, verbose=False, year=year)
-        
+    print(
+        f"Running HWM14 Model of Atmospheric Horizontal Wind Speed\n\tLocation: {lat}, {lon}\n\tTime: {time}\n\tAltitudes: {args.altitudes}"
+    )
 
     wind = HWM14(
         altlim=args.altitudes,
@@ -37,7 +38,7 @@ def main(args):
 
     plt.figure(figsize=(5, 8))
     plt.plot(wind.Uwind, wind.altbins, wind.Vwind, wind.altbins)
-    plt.title(f"Atmospheric Wind Model by Altitude\nat {lat}, {lon} @ {args.time}")
+    plt.title(f"Atmospheric Wind Model by Altitude\nat {lat}, {lon} @ {time}")
     plt.legend(["Zonal", "Meridional"])
     plt.ylabel("Altitude (km)")
     plt.xlabel("Wind Speed (m/s)")
